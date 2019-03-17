@@ -47,8 +47,22 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 	// }
 	
 	// M*N beacuse of transpose and we take svd od D_T
-	matrix sigma_inv(M, N, 0);
+	matrix sigma(N, M, 0);
 	int e = eigenv_index.size()-1;
+	for(int i=0; i<N;i++){
+		// if(eigenv_index[e].first<1e-5){
+			// sigma(i,i)= 0;
+		// }
+		// else{
+			sigma(i,i)= sqrt(eigenv_index[e].first);
+		// }
+		e--;	
+	}
+	
+	sigma.print();
+
+	matrix sigma_inv(M, N, 0);
+	e = eigenv_index.size()-1;
 	for(int i=0; i<N;i++){
 		if(eigenv_index[e].first<1e-5){
 			sigma_inv(i,i)= 0;
@@ -58,7 +72,7 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 		}
 		e--;	
 	}
-	sigma_inv.print();
+	// sigma_inv.print();
 	
 	matrix v(M, M, 0);
 	e = eigenv_index.size()-1;	

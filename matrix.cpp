@@ -150,6 +150,7 @@ matrix matrix::operator*(matrix &A){
     int r2 = A.rows;
     int c2 = A.columns;
 	matrix product(r1, c2, 0);
+    // matrix A_t = A.transpose();
     if(c1==r2){
     	#pragma omp parallel for
      	for(int i=0; i<r1; i++){
