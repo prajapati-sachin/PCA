@@ -52,9 +52,6 @@ public:
 	//access element by ()
  	double& operator()(const unsigned &, const unsigned &);
 
-
-	
-
 };
 
 namespace fgivens{
@@ -66,6 +63,5 @@ namespace fgivens{
 	matrix rotation(double cos, double sin);
 
 }
-
 
 #endif
