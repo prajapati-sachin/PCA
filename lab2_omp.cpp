@@ -90,6 +90,7 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 
 	// writing the matrices
 	//Writing U
+	#pragma omp parallel for
 	for(int i=0;i<N;i++){
 		for(int j=0;j<N;j++){
 			(*U)[i*N+j] = u(i,j);
@@ -97,6 +98,7 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 	}
 
 	//Writing sigma
+	#pragma omp parallel for	
  	for(int i=0;i<N;i++){
 		// for(int j=0;j<M;j++){
 			(*SIGMA)[i] = sigma(i,i);
@@ -105,12 +107,12 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 	
 	//Writing V_T
 	matrix vtranspose = v.transpose();
+	#pragma omp parallel for	
  	for(int i=0;i<M;i++){
 		for(int j=0;j<M;j++){
 			(*V_T)[i*M+j] = vtranspose(i,j);
 		}
 	}
-
 }
 
 // /*
@@ -120,5 +122,6 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 // */
 void PCA(int retention, int M, int N, float* D, float* U, float* SIGMA, float** D_HAT, int *K)
 {
+
     
 }

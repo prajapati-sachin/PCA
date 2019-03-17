@@ -72,12 +72,12 @@ int main(int argc, char const *argv[])
 	// */
 	SVD(M, N, D, &U, &SIGMA, &V_T);
 
-	// for(int i=0;i<M;i++){
-	// 	for(int j=0;j<M;j++){
-	// 		printf("%f |", V_T[M*i+j]);
-	// 	}
-	// 	printf("\n");
-	// }
+	for(int i=0;i<N;i++){
+		for(int j=0;j<N;j++){
+			printf("%f |", SIGMA[i]);
+		}
+		printf("\n");
+	}
 
 	PCA(retention, M, N, D, U, SIGMA, &D_HAT, &K);
 
