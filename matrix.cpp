@@ -357,7 +357,9 @@ pair<matrix, matrix> matrix::eigen(){
 		matrix Q = qr.first;
 		matrix R = qr.second;
 		// cout << "-----------------------" << endl;		
-		// Q.print();
+		// (Q.transpose()).print();
+		// matrix temp = (Q.transpose());
+		// (Q*temp).print();	
 		// cout << endl;
 		// (R).print();
 		// // cout << endl;
