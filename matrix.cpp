@@ -67,6 +67,16 @@ namespace fgivens{
 		}
 		return result;
 	}
+	//function to return rotation matrix corresponding to cos and sin
+	matrix rotation(double cos, double sin){
+		matrix rotation(2, 2, 0);
+		rotation(0,0) = cos;
+		rotation(1,1) = cos;
+
+		rotation(0,1) = (-1)*sin;
+		rotation(1,0) = sin;
+		return rotation;
+	}
 }
 
 matrix::matrix(int rows1, int columns1, int type){
@@ -146,7 +156,7 @@ matrix matrix::operator*(matrix &A){
     		for(int j=0; j<c2; j++){
  		   		double temp = 0.0;
     			for(int k=0; k<c1; k++){
-    				temp += mat[i][k] + A(k,j);
+    				temp += mat[i][k]*A(k,j);
     			}
     			product(i, j) = temp;
     		}
@@ -236,12 +246,55 @@ void matrix::print(){
 }
 
 
+// matrix matrix::submat(int i1, int i2){
+// 	matrix submat(2, columns, 0);
+// 	for(int j=0;j<columns;j++){
+// 		submat(0,j) = mat[i1][j];
+// 		submat(1,j) = mat[i2][j];
+// 	}
+// 	return submat;
+// }
+
 pair<matrix, matrix> matrix::qr(){
 	if(rows!=columns){
 		cout << "Error in QR" << endl;
 	}
+	matrix copy = *this;
+	// copy.print();
 	//Q matrix is identity in the beginining
 	matrix Q(rows, columns, 1);
 	int m = rows;
+	for(int j=0; j<m-1; j++){
+		for(int i=m-1; i>=j+1; i--){
+			// cout << "Processing: " << copy(i-1,j) <<", " << copy(i,j) << endl;
+			vector<double> csp = fgivens::givens(copy(i-1,j), copy(i,j));
+			double cos = csp[0];
+			double sin = csp[1];			
+			double rho = csp[2];
+			// cout << "cos, sin, rho: " << cos << ", " << sin << ", "<< rho <<  endl; 
+			matrix temp = fgivens::rotation(cos, sin);
+			// temp.print();
+			// cout << endl;
+			matrix submat(2, columns, 0);
+			for(int k=j;k<columns;k++){
+				submat(0,k) = copy(i-1,k);
+				submat(1,k) = copy(i,k);
+			}
+			// submat.print();
+			// cout << endl;			
+			matrix product = temp*submat;
+			// product.print();
+			// cout << endl;
+			for(int k=j;k<columns;k++){
+				copy(i-1,k) = product(0,k);
+				copy(i,k) = product(1,k);
+			}
+			copy(i,j) = rho;
+			// cout << "After Processing: " << i <<", " <<j << endl;
+			// copy.print();
+			// cout << endl;
+		}
+	}
+	return make_pair(copy, copy);
 
 }

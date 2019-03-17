@@ -33,13 +33,20 @@ public:
 	matrix scalarmul(double a);
 	matrix scalardiv(double a);
 
+	//print the matrix
+	void print();
+
+	matrix rotation(double cos, double sin);
+	// // Gives a submatrix of 2 rows  from i1 to i2 and columns column
+	// matrix submat(int i1, int i2);
+
 	//QR Decomposition of the matrix
 	pair<matrix, matrix> qr();
 
 	//access element by ()
  	double& operator()(const unsigned &, const unsigned &);
 
-	void print();
+
 	
 
 };
@@ -49,6 +56,9 @@ namespace fgivens{
 	vector<double> givens(double a, double b);
 	//fuction to find [cos, sin] using rho
 	vector<double> givensinv(double rho);
+	//fuction return the (2*2) rotation matrix for given cos and sin
+	matrix rotation(double cos, double sin);
+
 }
 
 

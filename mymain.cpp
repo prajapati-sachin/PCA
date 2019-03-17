@@ -6,28 +6,28 @@
 using namespace std;
 
 int main(){
-	#pragma omp parallel
-	{
-		cout << "Welcome\n";
-	}
+	// #pragma omp parallel
+	// {
+	// 	cout << "Welcome\n";
+	// }
 
 	matrix m1(3,3,0);
 	matrix m2(3,3,1);
 	matrix m3(3,3,2);
-	m1.print();
+	// m1.print();
 	cout << endl;
-	m2.print();
+	// m2.print();
 	cout << endl;
-	m3.print();
+	// m3.print();
 	cout << endl;
 
 	matrix m4 = m2+m3;
-	m4.print();
+	// m4.print();
 	cout << endl;
 	
 	matrix m5 = m3-m2;
 	
-	m5.print();
+	// m5.print();
 	cout << endl;
 	
 	matrix m6 = m5*m4; 
@@ -37,16 +37,27 @@ int main(){
 	m6(2,1)= 29;
 	m6(2,0)= 39;
 
-	m6.print();
+	// m6.print();
 	cout << endl;
 
-	m6.transpose().scalardiv(2).print();
+	// m6.transpose().scalardiv(2).print();
 	cout << endl;
 
-	m6.print();
+	// m6.print();
 
 	matrix m7 = m6;
 	m7.print();
+	cout << endl;
+	pair<matrix, matrix> p = m7.qr();
+	
+	p.first.print();
+
+	// m7(0,0)=999;
+	// m7.print();
+	// p.first.print();
+	// p = m7.qr();
+
+	// p.first.print();
 
 	return 0;
 }
