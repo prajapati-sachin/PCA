@@ -297,26 +297,33 @@ pair<matrix, matrix> matrix::qr(){
 			double sin = csp[1];			
 			double rho = csp[2];
 			// cout << "cos, sin, rho: " << cos << ", " << sin << ", "<< rho <<  endl; 
-			matrix temp = fgivens::rotation(cos, sin);
-			// temp.print();
-			// cout << endl;
-			matrix submat(2, columns-j, 0);
-			int iter=0;
+			// matrix temp = fgivens::rotation(cos, sin);
+			// // temp.print();
+			// // cout << endl;
+			// matrix submat(2, columns-j, 0);
+			// int iter=0;
+			// for(int k=j;k<columns;k++){
+			// 	submat(0,iter) = copy(i-1,k);
+			// 	submat(1,iter) = copy(i,k);
+			// 	iter++;
+			// }
+			// // submat.print();
+			// // cout << endl;			
+			// matrix product = temp*submat;
+			// // product.print();
+			// // cout << endl;
+			// iter=0;
+			// for(int k=j;k<columns;k++){
+			// 	copy(i-1,k) = product(0,iter);
+			// 	copy(i,k) = product(1,iter);
+			// 	iter++;
+			// }
 			for(int k=j;k<columns;k++){
-				submat(0,iter) = copy(i-1,k);
-				submat(1,iter) = copy(i,k);
-				iter++;
-			}
-			// submat.print();
-			// cout << endl;			
-			matrix product = temp*submat;
-			// product.print();
-			// cout << endl;
-			iter=0;
-			for(int k=j;k<columns;k++){
-				copy(i-1,k) = product(0,iter);
-				copy(i,k) = product(1,iter);
-				iter++;
+				double num1 = cos*copy(i-1,k) - sin*copy(i,k);
+				double num2 = sin*copy(i-1,k) + cos*copy(i,k);
+				copy(i-1,k) = num1;
+				copy(i,k) = num2;
+				// iter++;
 			}
 			copy(i,j) = rho;
 			// cout << "After Processing: " << i <<", " <<j << endl;
@@ -332,24 +339,31 @@ pair<matrix, matrix> matrix::qr(){
 			double cos = cs[0];
 			double sin = cs[1];
 
-			matrix temp = (fgivens::rotation(cos, sin)).transpose();
-			matrix submat(2, columns-j, 0);
-			int iter=0;
+			// matrix temp = (fgivens::rotation(cos, sin)).transpose();
+			// matrix submat(2, columns-j, 0);
+			// int iter=0;
+			// for(int k=j;k<columns;k++){
+			// 	submat(0,iter) = Q(i-1,k);
+			// 	submat(1,iter) = Q(i,k);
+			// 	iter++;
+			// }
+			// // submat.print();
+			// // cout << endl;			
+			// matrix product = temp*submat;
+			// // product.print();
+			// // cout << endl;
+			// iter=0;
+			// for(int k=j;k<columns;k++){
+			// 	Q(i-1,k) = product(0,iter);
+			// 	Q(i,k) = product(1,iter);
+			// 	iter++;
+			// }
 			for(int k=j;k<columns;k++){
-				submat(0,iter) = Q(i-1,k);
-				submat(1,iter) = Q(i,k);
-				iter++;
-			}
-			// submat.print();
-			// cout << endl;			
-			matrix product = temp*submat;
-			// product.print();
-			// cout << endl;
-			iter=0;
-			for(int k=j;k<columns;k++){
-				Q(i-1,k) = product(0,iter);
-				Q(i,k) = product(1,iter);
-				iter++;
+				double num1 = cos*Q(i-1,k) + sin*Q(i,k);
+				double num2 = -sin*Q(i-1,k) + cos*Q(i,k);
+				Q(i-1,k) = num1;
+				Q(i,k) = num2;
+				// iter++;
 			}
 		}
 	}

@@ -86,7 +86,7 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 
 	// v.print();
 	matrix u = ((d_t)*(v))*(sigma_inv);
-	u.print();
+	// u.print();
 }
 
 // /*
