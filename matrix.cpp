@@ -150,14 +150,14 @@ matrix matrix::operator*(matrix &A){
     int r2 = A.rows;
     int c2 = A.columns;
 	matrix product(r1, c2, 0);
-    // matrix A_t = A.transpose();
+    matrix A_t = A.transpose();
     if(c1==r2){
     	#pragma omp parallel for
      	for(int i=0; i<r1; i++){
     		for(int j=0; j<c2; j++){
  		   		double temp = 0.0;
     			for(int k=0; k<c1; k++){
-    				temp += mat[i][k]*A(k,j);
+    				temp += mat[i][k]*A_t(j,k);
     			}
     			product(i, j) = temp;
     		}

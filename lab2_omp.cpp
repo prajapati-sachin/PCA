@@ -59,7 +59,7 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 		e--;	
 	}
 	
-	sigma.print();
+	// sigma.print();
 
 	matrix sigma_inv(M, N, 0);
 	e = eigenv_index.size()-1;
@@ -87,6 +87,30 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 	// v.print();
 	matrix u = ((d_t)*(v))*(sigma_inv);
 	// u.print();
+
+	// writing the matrices
+	//Writing U
+	for(int i=0;i<N;i++){
+		for(int j=0;j<N;j++){
+			(*U)[i*N+j] = u(i,j);
+		}
+	}
+
+	//Writing sigma
+ 	for(int i=0;i<N;i++){
+		// for(int j=0;j<M;j++){
+			(*SIGMA)[i] = sigma(i,i);
+		// }
+	}
+	
+	//Writing V_T
+	matrix vtranspose = v.transpose();
+ 	for(int i=0;i<M;i++){
+		for(int j=0;j<M;j++){
+			(*V_T)[i*M+j] = vtranspose(i,j);
+		}
+	}
+
 }
 
 // /*
