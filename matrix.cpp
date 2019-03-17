@@ -6,6 +6,69 @@
 using namespace std;
 
 
+namespace fgivens{
+	//function to find [cos, sin, rho]
+	vector<double> givens(double a, double b){
+		vector<double> result;
+		if(b==0){
+			result.pb(1);
+			result.pb(0);
+			result.pb(0);
+		}
+		else if(a==0){
+			result.pb(0);
+			result.pb(1);
+			result.pb(1);
+		}
+		else{
+			if(abs(b)>abs(a)){
+				double tau=	(-1)*(a/b);
+				double s = 1/sqrt(1+tau*tau);
+				double c = s*tau;
+				double rho = 2/c; 
+				result.pb(c);
+				result.pb(s);
+				result.pb(rho);
+			}
+			else{
+				double tau=	(-1)*(b/a);
+				double c = 1/sqrt(1+tau*tau);
+				double s = c*tau;
+				double rho = s/2; 
+				result.pb(c);
+				result.pb(s);
+				result.pb(rho);
+			}
+		}
+		return result;
+	}
+	//fuction to find [cos, sin] using rho
+	vector<double> givensinv(double rho){
+		vector<double> result; 
+		if(rho==0){
+			result.pb(1);
+			result.pb(0);
+		}
+		else if(rho==1){
+			result.pb(0);
+			result.pb(1);
+		}
+		else if(abs(rho)>2){
+			double c = 2/rho;
+			double s = sqrt(1-c*c);
+			result.pb(c);
+			result.pb(s);
+		}
+		else{
+			double s = 2*rho;
+			double c = sqrt(1-s*s);
+			result.pb(c);
+			result.pb(s);
+		}
+		return result;
+	}
+}
+
 matrix::matrix(int rows1, int columns1, int type){
 	rows = rows1;
 	columns = columns1;
@@ -32,6 +95,18 @@ matrix::matrix(int rows1, int columns1, int type){
 	}
 }
 
+
+matrix::matrix(const matrix &A){
+	rows = A.rows;
+	columns = A.columns;
+	for(int i=0;i<A.rows;i++){
+		vector<double> temp;
+		for(int j=0; j<A.columns; j++){
+			temp.pb(A.mat[i][j]);
+		}
+		mat.pb(temp);
+	}
+}
 
 
 // Addition of Two Matrices
@@ -158,4 +233,15 @@ void matrix::print(){
 		}
 		cout << endl;
 	}
+}
+
+
+pair<matrix, matrix> matrix::qr(){
+	if(rows!=columns){
+		cout << "Error in QR" << endl;
+	}
+	//Q matrix is identity in the beginining
+	matrix Q(rows, columns, 1);
+	int m = rows;
+
 }

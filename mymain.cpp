@@ -43,7 +43,10 @@ int main(){
 	m6.transpose().scalardiv(2).print();
 	cout << endl;
 
-	m6.transpose().print();
+	m6.print();
+
+	matrix m7 = m6;
+	m7.print();
 
 	return 0;
 }

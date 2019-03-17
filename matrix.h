@@ -33,6 +33,9 @@ public:
 	matrix scalarmul(double a);
 	matrix scalardiv(double a);
 
+	//QR Decomposition of the matrix
+	pair<matrix, matrix> qr();
+
 	//access element by ()
  	double& operator()(const unsigned &, const unsigned &);
 
@@ -40,5 +43,13 @@ public:
 	
 
 };
+
+namespace fgivens{
+	//function to find [cos, sin, rho]
+	vector<double> givens(double a, double b);
+	//fuction to find [cos, sin] using rho
+	vector<double> givensinv(double rho);
+}
+
 
 #endif
