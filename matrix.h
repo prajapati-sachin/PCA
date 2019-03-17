@@ -36,7 +36,10 @@ public:
 	//print the matrix
 	void print();
 
-	matrix rotation(double cos, double sin);
+	//Return the upper triangular matrix of this matrix
+	matrix upper();
+
+	// matrix rotation(double cos, double sin);
 	// // Gives a submatrix of 2 rows  from i1 to i2 and columns column
 	// matrix submat(int i1, int i2);
 

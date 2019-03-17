@@ -51,6 +51,12 @@ int main(){
 	pair<matrix, matrix> p = m7.qr();
 	
 	p.first.print();
+	cout << endl;
+	p.second.print();
+
+	matrix final = p.first*p.second;
+	cout << endl;
+	final.print();
 
 	// m7(0,0)=999;
 	// m7.print();

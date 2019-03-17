@@ -255,6 +255,16 @@ void matrix::print(){
 // 	return submat;
 // }
 
+matrix matrix::upper(){
+	matrix result(rows, columns, 0);
+	for(int i=0;i<rows;i++){
+		for(int j=i;j<columns;j++){
+			result(i,j)= mat[i][j];
+		}
+	} 
+	return result;
+}
+
 pair<matrix, matrix> matrix::qr(){
 	if(rows!=columns){
 		cout << "Error in QR" << endl;
@@ -264,6 +274,7 @@ pair<matrix, matrix> matrix::qr(){
 	//Q matrix is identity in the beginining
 	matrix Q(rows, columns, 1);
 	int m = rows;
+	// Making the matrix R
 	for(int j=0; j<m-1; j++){
 		for(int i=m-1; i>=j+1; i--){
 			// cout << "Processing: " << copy(i-1,j) <<", " << copy(i,j) << endl;
@@ -275,19 +286,23 @@ pair<matrix, matrix> matrix::qr(){
 			matrix temp = fgivens::rotation(cos, sin);
 			// temp.print();
 			// cout << endl;
-			matrix submat(2, columns, 0);
+			matrix submat(2, columns-j, 0);
+			int iter=0;
 			for(int k=j;k<columns;k++){
-				submat(0,k) = copy(i-1,k);
-				submat(1,k) = copy(i,k);
+				submat(0,iter) = copy(i-1,k);
+				submat(1,iter) = copy(i,k);
+				iter++;
 			}
 			// submat.print();
 			// cout << endl;			
 			matrix product = temp*submat;
 			// product.print();
 			// cout << endl;
+			iter=0;
 			for(int k=j;k<columns;k++){
-				copy(i-1,k) = product(0,k);
-				copy(i,k) = product(1,k);
+				copy(i-1,k) = product(0,iter);
+				copy(i,k) = product(1,iter);
+				iter++;
 			}
 			copy(i,j) = rho;
 			// cout << "After Processing: " << i <<", " <<j << endl;
@@ -295,6 +310,37 @@ pair<matrix, matrix> matrix::qr(){
 			// cout << endl;
 		}
 	}
-	return make_pair(copy, copy);
+
+	//Making the matrix Q
+	for(int j=m-2;j>=0;j--){
+		for(int i=j+1; i<=m-1;i++){
+			vector<double> cs = fgivens::givensinv(copy(i,j));
+			double cos = cs[0];
+			double sin = cs[1];
+
+			matrix temp = (fgivens::rotation(cos, sin)).transpose();
+			matrix submat(2, columns-j, 0);
+			int iter=0;
+			for(int k=j;k<columns;k++){
+				submat(0,iter) = Q(i-1,k);
+				submat(1,iter) = Q(i,k);
+				iter++;
+			}
+			// submat.print();
+			// cout << endl;			
+			matrix product = temp*submat;
+			// product.print();
+			// cout << endl;
+			iter=0;
+			for(int k=j;k<columns;k++){
+				Q(i-1,k) = product(0,iter);
+				Q(i,k) = product(1,iter);
+				iter++;
+			}
+		}
+	}
+
+	return make_pair(Q, copy.upper());
+	// return make_pair(Q, Q);
 
 }
