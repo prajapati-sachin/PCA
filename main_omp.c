@@ -50,6 +50,15 @@ int main(int argc, char const *argv[])
 	*/
 	read_matrix (argv[1], &M, &N, &D);
 
+	// printf("%d\n", M);		
+	// printf("%d\n", N);		
+	// for(int i=0;i<M;i++){
+	// 	for(int j=0;j<N;j++){
+	// 		printf("%f |", D[i*N+j]);
+	// 	}
+	// 	printf("\n");
+	// }
+
 	U = (float*) malloc(sizeof(float) * N*N);
 	SIGMA = (float*) malloc(sizeof(float) * N);
 	V_T = (float*) malloc(sizeof(float) * M*M);
@@ -62,6 +71,7 @@ int main(int argc, char const *argv[])
 	// 	*****************************************************
 	// */
 	SVD(M, N, D, &U, &SIGMA, &V_T);
+
 	PCA(retention, M, N, D, U, SIGMA, &D_HAT, &K);
 
 	end_time = omp_get_wtime();

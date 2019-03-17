@@ -27,6 +27,9 @@ public:
 	//Transpose of the matrix
 	matrix transpose();
 	
+	//Return the diagonal of a matrix in vector
+	vector<double> diagonal();
+
 	//scalar operations
 	matrix scalaradd(double a);
 	matrix scalarsub(double a);
@@ -35,6 +38,9 @@ public:
 
 	//print the matrix
 	void print();
+
+	//print the shape of matrix
+	void shape();
 
 	//Return the upper triangular matrix of this matrix
 	matrix upper();

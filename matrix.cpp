@@ -181,6 +181,16 @@ matrix matrix::transpose(){
 	return transpose;
 }
 
+// Return the diagonal of a matrix
+vector<double> matrix::diagonal(){
+	vector<double> result;
+	for(int i=0;i<rows;i++){
+		result.pb(mat[i][i]);
+	} 
+	return result;
+}
+
+
 //scalar methods
 matrix matrix::scalaradd(double a){
 	matrix scalaradd(rows, columns, 0);
@@ -245,6 +255,9 @@ void matrix::print(){
 	}
 }
 
+void matrix::shape(){
+	cout << "( "<<rows << ", " << columns << ")" << endl;
+}
 
 // matrix matrix::submat(int i1, int i2){
 // 	matrix submat(2, columns, 0);
