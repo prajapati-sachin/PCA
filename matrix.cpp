@@ -362,9 +362,10 @@ pair<matrix, matrix> matrix::eigen(){
 	// D.print();
 	// cout << endl;
 	// E.print();
-	// int count=0;
+	int count=0;
 	while(1){
-		// count++;
+		count++;
+		cout << count << endl;
 		//Repeat until convergence
 		pair<matrix,matrix> qr = D.qr();
 		matrix Q = qr.first;
@@ -387,6 +388,7 @@ pair<matrix, matrix> matrix::eigen(){
 		}
 		D = check;	
 		//if maximum change in the values of eigenvalues is less then epsilon we are converged
+		cout << "Max: " << max << endl;
 		if(max<1e-5){
 			// cout << count << endl;
 			break;

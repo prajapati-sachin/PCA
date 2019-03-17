@@ -19,10 +19,10 @@
 
 from random import uniform
 
-M = 10000           # number of rows (samples) in input matrix D
-N = 300             # number of columns (features) in input matrix
-lrange = -100000    # lrange <= element of matrix
-urange = 100000     # element of matrix <= urange
+M = 100           # number of rows (samples) in input matrix D
+N = 100             # number of columns (features) in input matrix
+lrange = -100    # lrange <= element of matrix
+urange = 100     # element of matrix <= urange
 
 # number of elements in M x N matrix
 num_elements = M * N

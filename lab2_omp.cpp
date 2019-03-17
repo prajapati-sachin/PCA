@@ -35,8 +35,8 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 	eigenvectors.shape();
 	vector<pair<double, int> > eigenv_index;
 	for(int i=0;i<eigenvalues.size();i++){
-		if(abs(eigenvalues[i])>1e-5) eigenv_index.pb(make_pair(eigenvalues[i],i));
-		else eigenv_index.pb(make_pair(0,i));
+		eigenv_index.pb(make_pair(eigenvalues[i],i));
+		// eigenv_index.pb(make_pair(0,i));
 		// cout << eigenvalues[i] << endl;
 	}
 	sort(eigenv_index.begin(), eigenv_index.end());
@@ -45,20 +45,33 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 	// 	cout << eigenv_index[i].first << "| ";
 	// 	cout << eigenv_index[i].second << endl;
 	// }
+	
+	// M*N beacuse of transpose and we take svd od D_T
 	matrix sigma_inv(M, N, 0);
 	int e = eigenv_index.size()-1;
 	for(int i=0; i<N;i++){
-		sigma_inv(i,i)= 1/(eigenv_index[e].first);
+		if(eigenv_index[e].first<1e-5){
+			sigma_inv(i,i)= 0;
+		}
+		else{
+			sigma_inv(i,i)= 1/(eigenv_index[e].first);
+		}
 		e--;	
 	}
-	sigma_inv.print();
-	matrix v(N, N, 0);
+	// sigma_inv.print();
+	
+	matrix v(M, M, 0);
 	e = eigenv_index.size()-1;	
-	// for(int i=0;i<N;i++){
-		// int index = eigenv_index[e].second;
-		// for()
-	// }
+	for(int j=0;j<M;j++){
+		int index = eigenv_index[e].second;
+		for(int i=0;i<M;i++){
+			v(i,j) = eigenvectors(i, index);
+		}
+	}
 
+	// v.print();
+	matrix u = ((d_t)*(v))*(sigma_inv);
+	u.print();
 }
 
 // /*
