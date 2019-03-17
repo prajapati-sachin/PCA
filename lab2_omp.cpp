@@ -54,11 +54,11 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 			sigma_inv(i,i)= 0;
 		}
 		else{
-			sigma_inv(i,i)= 1/(eigenv_index[e].first);
+			sigma_inv(i,i)= 1/sqrt(eigenv_index[e].first);
 		}
 		e--;	
 	}
-	// sigma_inv.print();
+	sigma_inv.print();
 	
 	matrix v(M, M, 0);
 	e = eigenv_index.size()-1;	
@@ -67,6 +67,7 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 		for(int i=0;i<M;i++){
 			v(i,j) = eigenvectors(i, index);
 		}
+		e--;
 	}
 
 	// v.print();
