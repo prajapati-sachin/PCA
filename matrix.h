@@ -46,6 +46,9 @@ public:
 	//QR Decomposition of the matrix
 	pair<matrix, matrix> qr();
 
+	//Return matrix of eigenvalues and eignevector
+	pair<matrix, matrix> eigen();
+
 	//access element by ()
  	double& operator()(const unsigned &, const unsigned &);
 

@@ -341,6 +341,41 @@ pair<matrix, matrix> matrix::qr(){
 	}
 
 	return make_pair(Q, copy.upper());
-	// return make_pair(Q, Q);
+}
 
+pair<matrix, matrix> matrix::eigen(){
+	matrix D = *this;
+	matrix E(rows, columns, 1);
+	// D.print();
+	// cout << endl;
+	// E.print();
+	// int count=0;
+	while(1){
+		// count++;
+		//Repeat until convergence
+		pair<matrix,matrix> qr = D.qr();
+		matrix Q = qr.first;
+		matrix R = qr.second;
+		// cout << "-----------------------" << endl;		
+		// Q.print();
+		// cout << endl;
+		// (R).print();
+		// // cout << endl;
+		// cout << "-----------------------" << endl;
+		// D = R*Q;
+		E = E*Q;
+		matrix check = R*Q;
+		//check for convergence
+		double max= INT_MIN;
+		for(int i=0;i<rows;i++){
+			if(abs(check(i,i)-D(i,i))>max) max = abs(check(i,i)-D(i,i)); 
+		}
+		D = check;	
+		//if maximum change in the values of eigenvalues is less then epsilon we are converged
+		if(max<1e-5){
+			// cout << count << endl;
+			break;
+		}
+	}
+	return make_pair(D, E);
 }
