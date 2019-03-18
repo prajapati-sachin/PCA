@@ -404,7 +404,7 @@ pair<matrix, matrix> matrix::eigen(){
 		D = check;	
 		//if maximum change in the values of eigenvalues is less then epsilon we are converged
 		cout << "Max: " << max << endl;
-		if(max<1e-5){
+		if(max<1e-4){
 			// cout << count << endl;
 			break;
 		}

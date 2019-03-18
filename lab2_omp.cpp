@@ -86,7 +86,7 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 
 	// v.print();
 	matrix u = ((d_t)*(v))*(sigma_inv);
-	// u.print();
+	u.print();
 
 	// writing the matrices
 	//Writing U
@@ -113,6 +113,8 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 			(*V_T)[i*M+j] = vtranspose(i,j);
 		}
 	}
+	cout << "------------------------------------------------------------------------";
+	vtranspose.print();
 }
 
 // /*
@@ -124,15 +126,21 @@ void PCA(int retention, int M, int N, float* D, float* U, float* SIGMA, float** 
 {
 	double num=0;
 	int k=0;
+	double sigmasqsum=0;
 	for(k=0; k<N; k++){
-		num+=SIGMA[k];
-		if(num>=retention){
+		sigmasqsum+=SIGMA[k]*SIGMA[k];
+	}
+	// #pragma omp parallel for
+	for(k=0; k<N; k++){
+		num+=(SIGMA[k]*SIGMA[k])/sigmasqsum;
+		if(num>=retention/100.0){
 			break;
 		}
 	}
     
     *K = k+1;
     matrix d(M, N, 0);
+	// #pragma omp parallel for    
     for(int i=0;i<M;i++){
     	for(int j=0;j<N;j++){
     		d(i,j)=D[i*N + j];
@@ -141,9 +149,10 @@ void PCA(int retention, int M, int N, float* D, float* U, float* SIGMA, float** 
 
     // d.print();
     // d.shape();
-    // cout << "\nK: " << k+1 << endl;
+    cout << "\nK: \n" << k+1 << endl;
 
     matrix newU(N, k+1, 0);
+	// #pragma omp parallel for        
     for(int i=0; i<N; i++){
     	for(int j=0;j<k+1;j++){
     		newU(i,j)=U[i*(k+1)+ j];
@@ -157,6 +166,7 @@ void PCA(int retention, int M, int N, float* D, float* U, float* SIGMA, float** 
 
 	*D_HAT = (float*) malloc(sizeof(float) * M*(k+1));
 
+	// #pragma omp parallel for    
 	for(int i=0; i<M; i++){
     	for(int j=0;j<k+1;j++){
     		(*D_HAT)[i*(k+1)+j] = d_hat(i,j);

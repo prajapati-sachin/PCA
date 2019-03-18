@@ -72,18 +72,21 @@ int main(int argc, char const *argv[])
 	// */
 	SVD(M, N, D, &U, &SIGMA, &V_T);
 
+	printf("---------------------------------------------------------------------------------------------\n");
 	for(int i=0;i<N;i++){
 	// 	// for(int j=0;j<N;j++){
 			printf("%f |", SIGMA[i]);
 	// 	// }
 	// 	// printf("\n");
 	}
+	printf("---------------------------------------------------------------------------------------------\n");
+
 
 	PCA(retention, M, N, D, U, SIGMA, &D_HAT, &K);
 
 	end_time = omp_get_wtime();
 	computation_time = ((double) (end_time - start_time));
-	// printf("%lf\n", computation_time);
+	printf("%lf\n", computation_time);
 	/*
 		--Pre-defined functions --
 		checks for correctness of results computed by SVD and PCA
