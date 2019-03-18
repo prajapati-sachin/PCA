@@ -24,4 +24,17 @@ void write_result (int M,
 		float* D_HAT,
 		double computation_time){
 	// Will contain output code
+
+	// printf("---------------------------------------------------------------------------------------------\n");
+	for(int i=0;i<M;i++){
+		for(int j=0;j<K;j++){
+			printf("%f |", D_HAT[i*K+j]);
+		}
+		printf("\n");
+	}
+	// printf("---------------------------------------------------------------------------------------------\n");
+	// printf("%d\n", K);
+
+
+
 }

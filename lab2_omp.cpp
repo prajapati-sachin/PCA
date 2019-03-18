@@ -1,3 +1,5 @@
+#pragma GCC optimize ("O3")
+
 #include <malloc.h>
 #include <omp.h>
 #include <bits/stdc++.h>
@@ -473,7 +475,7 @@ pair<matrix, matrix> matrix::eigen(){
 		D = check;	
 		//if maximum change in the values of eigenvalues is less then epsilon we are converged
 		cout << "Max: " << max << endl;
-		if(max<1e-4){
+		if(max<1e-5){
 			// cout << count << endl;
 			break;
 		}
@@ -490,8 +492,8 @@ pair<matrix, matrix> matrix::eigen(){
 void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 {
 	matrix d(M, N, 0);
-	printf("%d\n", M);		
-	printf("%d\n", N);		
+	// printf("%d\n", M);		
+	// printf("%d\n", N);		
 	for(int i=0;i<M;i++){
 		for(int j=0;j<N;j++){
 			d(i,j) = D[i*N+j];
@@ -500,15 +502,15 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 		// printf("\n");
 	}
 	// d.print();
-	d.shape();
+	// d.shape();
 	matrix d_t = d.transpose();
-	d_t.shape();
-	matrix svd = d*d_t;
-	svd.shape();
+	// d_t.shape();
+	matrix svd = d_t*d;
+	// svd.shape();
 	pair<matrix, matrix> eigens = svd.eigen();
 	vector<double> eigenvalues = (eigens.first).diagonal();
 	matrix eigenvectors = (eigens.second);
-	eigenvectors.shape();
+	// eigenvectors.print();
 	vector<pair<double, int> > eigenv_index;
 	for(int i=0;i<eigenvalues.size();i++){
 		eigenv_index.pb(make_pair(eigenvalues[i],i));
@@ -549,32 +551,45 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 		e--;	
 	}
 	// sigma_inv.print();
+	matrix sigma_invT = sigma_inv.transpose();
+	// sigma_invT.shape();
+
 	
 	matrix v(M, M, 0);
-	e = eigenv_index.size()-1;	
-	for(int j=0;j<M;j++){
-		int index = eigenv_index[e].second;
-		for(int i=0;i<M;i++){
-			v(i,j) = eigenvectors(i, index);
-		}
-		e--;
-	}
+
+	v = (d*eigenvectors)*sigma_invT;
+
+	// e = eigenv_index.size()-1;	
+	// for(int j=0;j<M;j++){
+	// 	int index = eigenv_index[e].second;
+	// 	for(int i=0;i<M;i++){
+	// 		v(i,j) = eigenvectors(i, index);
+	// 	}
+	// 	e--;
+	// }
 
 	// v.print();
-	matrix u = ((d_t)*(v))*(sigma_inv);
-	u.print();
+	// matrix u = ((d_t)*(v))*(sigma_inv);
+	// u.print();
 
 	// writing the matrices
 	//Writing U
-	#pragma omp parallel for
+	// #pragma omp parallel for
 	for(int i=0;i<N;i++){
 		for(int j=0;j<N;j++){
-			(*U)[i*N+j] = u(i,j);
+			(*U)[i*N+j] = eigenvectors(i,j);
 		}
 	}
 
+	// for(int i=0;i<N;i++){
+	// 	for(int j=0;j<N;j++){
+	// 		cout << (*U)[i*N+j] << " ";
+	// 	}
+	// 	cout << endl;
+	// }
+
 	//Writing sigma
-	#pragma omp parallel for	
+	// #pragma omp parallel for	
  	for(int i=0;i<N;i++){
 		// for(int j=0;j<M;j++){
 			(*SIGMA)[i] = sigma(i,i);
@@ -583,14 +598,21 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 	
 	//Writing V_T
 	matrix vtranspose = v.transpose();
-	#pragma omp parallel for	
+	// #pragma omp parallel for	
  	for(int i=0;i<M;i++){
 		for(int j=0;j<M;j++){
 			(*V_T)[i*M+j] = vtranspose(i,j);
 		}
 	}
-	cout << "------------------------------------------------------------------------";
-	vtranspose.print();
+	// cout << "------------------------------------------------------------------------";
+	// vtranspose.print();
+	// for(int i=0;i<N;i++){
+	// 	for(int j=0;j<N;j++){
+	// 		printf("%f |", *U[i*N+j]);
+	// 	}
+	// 	printf("\n");
+	// }
+
 }
 
 // /*
@@ -625,17 +647,17 @@ void PCA(int retention, int M, int N, float* D, float* U, float* SIGMA, float** 
 
     // d.print();
     // d.shape();
-    cout << "\nK: \n" << k+1 << endl;
+    // cout << "\nK: \n" << k+1 << endl;
 
     matrix newU(N, k+1, 0);
 	// #pragma omp parallel for        
     for(int i=0; i<N; i++){
     	for(int j=0;j<k+1;j++){
-    		newU(i,j)=U[i*(k+1)+ j];
+    		newU(i,j)=U[i*N+ j];
     	}
     }
 
-
+    // newU.print();
     matrix d_hat = d*newU;
 
    	// d_hat.shape();
