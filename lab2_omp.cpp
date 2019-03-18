@@ -122,6 +122,49 @@ void SVD(int M, int N, float* D, float** U, float** SIGMA, float** V_T)
 // */
 void PCA(int retention, int M, int N, float* D, float* U, float* SIGMA, float** D_HAT, int *K)
 {
-
+	double num=0;
+	int k=0;
+	for(k=0; k<N; k++){
+		num+=SIGMA[k];
+		if(num>=retention){
+			break;
+		}
+	}
     
+    *K = k+1;
+    matrix d(M, N, 0);
+    for(int i=0;i<M;i++){
+    	for(int j=0;j<N;j++){
+    		d(i,j)=D[i*N + j];
+    	}
+    }
+
+    // d.print();
+    // d.shape();
+    // cout << "\nK: " << k+1 << endl;
+
+    matrix newU(N, k+1, 0);
+    for(int i=0; i<N; i++){
+    	for(int j=0;j<k+1;j++){
+    		newU(i,j)=U[i*(k+1)+ j];
+    	}
+    }
+
+
+    matrix d_hat = d*newU;
+
+   	// d_hat.shape();
+
+	*D_HAT = (float*) malloc(sizeof(float) * M*(k+1));
+
+	for(int i=0; i<M; i++){
+    	for(int j=0;j<k+1;j++){
+    		(*D_HAT)[i*(k+1)+j] = d_hat(i,j);
+    		// newU(i,j)=U[i*(k+1)+ j];
+    	}
+    }
+
+
+
+
 }

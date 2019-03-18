@@ -52,11 +52,11 @@ int main(int argc, char const *argv[])
 
 	// printf("%d\n", M);		
 	// printf("%d\n", N);		
-	// for(int i=0;i<M;i++){
-	// 	for(int j=0;j<N;j++){
-	// 		printf("%f |", D[i*N+j]);
-	// 	}
-	// 	printf("\n");
+	// for(int i=0;i<N;i++){
+		// for(int j=0;j<N;j++){
+			// printf("%f |", SIGMA[i]);
+		// }
+		// printf("\n");
 	// }
 
 	U = (float*) malloc(sizeof(float) * N*N);
@@ -73,10 +73,10 @@ int main(int argc, char const *argv[])
 	SVD(M, N, D, &U, &SIGMA, &V_T);
 
 	for(int i=0;i<N;i++){
-		for(int j=0;j<N;j++){
+	// 	// for(int j=0;j<N;j++){
 			printf("%f |", SIGMA[i]);
-		}
-		printf("\n");
+	// 	// }
+	// 	// printf("\n");
 	}
 
 	PCA(retention, M, N, D, U, SIGMA, &D_HAT, &K);
